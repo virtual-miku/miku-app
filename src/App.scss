@@ -1,0 +1,233 @@
+@import "https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Henny+Penny&family=New+Rocker&family=Orbitron:wght@400..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Tirra:wght@400;500;600;700;800;900&display=swap";
+
+:root {
+    --primary: red;
+    --secondary: #fff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    width: 100%;
+    min-height: 100dvh;
+    padding: clamp(25px, 5vw, 50px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+    background-color: #320000;
+    color: #f4ffff;
+    min-height: 100dvh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .card {
+        width: min(100%, 640px);
+        background: #ffffff13;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid #9ffaf440;
+        border-radius: 30px;
+        padding: clamp(30px, 5vw, 50px) clamp(20px, 5vw, 35px);
+        box-shadow: 0 0 30px var(--primary);
+        text-align: center;
+        position: relative;
+        margin-block: auto;
+
+        .badge {
+            display: block;
+            width: fit-content;
+            margin: -2.5px auto 10px;
+            padding: clamp(5px, 1.5vw, 8.5px) clamp(10px, 3vw, 17.5px);
+            background: #ffffff20;
+            color: var(--secondary);
+            border-radius: 999px;
+            font-size: clamp(0.45rem, 2vw, 0.85rem);
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 0 var(--secondary);
+
+            &:hover {
+                cursor: pointer;
+                background: #00000040;
+                text-shadow: 0 0 15px var(--secondary);
+            }
+        }
+
+        .link {
+            display: block;
+            color: var(--primary);
+            text-decoration: none;
+            font-family: "Orbitron", sans-serif;
+            font-size: clamp(1.5rem, 9vw, 5rem);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 25px;
+            white-space: nowrap;
+            word-spacing: -0.25em;
+            text-shadow: 0 0 20px #f63939a6;
+
+            &:hover {
+                cursor: pointer;
+                color: #fa9f9f;
+                text-shadow: 0 0 20px var(--primary);
+            }
+        }
+
+        .avatar-wrap {
+            position: relative;
+            width: 75%;
+            aspect-ratio: 1;
+            margin: 10px auto 25px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            background: #000;
+            overflow: hidden;
+            box-shadow: 0 0 20px #ff000073;
+
+            .avatar,
+            .avatar-skeleton {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }
+
+            .avatar {
+                object-fit: cover;
+                opacity: 0;
+                transform: translateY(100%);
+                transition:
+                    opacity 0.25s,
+                    transform 2s cubic-bezier(0.22, 1, 0.36, 1);
+
+                &.is-loaded {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .avatar-skeleton {
+                background: #000;
+                overflow: hidden;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(90deg, #0000, #ffffff2e, #0000);
+                    transform: translateX(-100%);
+                    animation: avatarShimmer 1.2s infinite;
+                }
+            }
+        }
+
+        @keyframes avatarShimmer {
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        .contact {
+            max-width: 500px;
+            margin: 10px auto 25px;
+            color: #d8b9b9;
+            font-size: clamp(0.45rem, 2.5vw, 1.15rem);
+            line-height: 1.25;
+            cursor: default;
+
+            a {
+                color: #fff;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+
+            b {
+                color: #eaffff;
+            }
+        }
+
+        .disclaimer {
+            max-width: 500px;
+            margin: auto;
+            padding: clamp(15px, 3vw, 20px) clamp(15px, 5vw, 20px);
+            background: #00000040;
+            border-left: 3px solid var(--secondary);
+            border-right: 3px solid var(--primary);
+            border-radius: 20px;
+            color: #eaffff;
+            font-family: "Source Code Pro", monospace;
+            font-size: clamp(0.55rem, 2.5vw, 1.15rem);
+            line-height: 1.75;
+            cursor: default;
+        }
+
+        .footer {
+            margin-top: 25px;
+            color: #f4ffff99;
+            font-size: clamp(0.5rem, 2vw, 0.875rem);
+            cursor: default;
+
+            .sparkle-left {
+                color: var(--secondary);
+            }
+
+            .sparkle-right {
+                color: var(--primary);
+            }
+        }
+    }
+}
+
+@media (width <= 390px) {
+    body {
+        padding-inline: 25px;
+
+        .card {
+            width: 100%;
+            padding: 25px 15px;
+            border-radius: 20px;
+
+            .badge {
+                margin: -5px auto 10px;
+                padding: clamp(5px, 2vw, 10px) clamp(7.5px, 5vw, 10px);
+                font-size: clamp(0.35rem, 2vw, 1.15rem);
+            }
+
+            .link {
+                margin-bottom: 22px;
+                font-size: clamp(10vw, 4vw, 2.5rem);
+            }
+
+            .contact {
+                margin: 5px auto 10px;
+                font-size: clamp(0.3rem, 2.5vw, 0.95rem);
+            }
+
+            .disclaimer {
+                padding: clamp(7.5px, 3.5vw, 10px) clamp(5px, 3.5vw, 15px);
+                border-radius: 15px;
+                font-size: clamp(0.4rem, 2vw, 0.9rem);
+                line-height: 1.5;
+            }
+
+            .footer {
+                margin-top: 15px;
+                font-size: clamp(0.25rem, 2vw, 0.875rem);
+            }
+        }
+    }
+}

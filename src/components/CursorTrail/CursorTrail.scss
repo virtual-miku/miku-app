@@ -1,0 +1,46 @@
+.cursor-trail-layer {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    pointer-events: none;
+    z-index: 999999;
+    overflow: hidden;
+    transform: translateZ(0);
+}
+
+.cursor-trail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    opacity: 0.95;
+    will-change: transform, opacity;
+    transform: translate3d(var(--x), var(--y), 0) translate(-50%, -50%)
+        rotate(var(--rot)) scale(var(--scale));
+    animation: batFade 0.7s ease-out forwards;
+
+    svg {
+        display: block;
+        width: 400% !important;
+        height: 400% !important;
+        fill: #000;
+        overflow: hidden;
+        filter: drop-shadow(0 0 2px red) drop-shadow(0 0 5px red)
+            drop-shadow(0 0 9px red);
+    }
+}
+
+@keyframes batFade {
+    to {
+        opacity: 0;
+        transform: translate3d(
+                calc(var(--x) + var(--dx)),
+                calc(var(--y) + var(--dy)),
+                0
+            )
+            translate(-50%, -50%) rotate(calc(var(--rot) + 45deg)) scale(0.2);
+    }
+}
