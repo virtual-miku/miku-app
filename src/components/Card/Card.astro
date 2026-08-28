@@ -1,0 +1,84 @@
+---
+import "./Card.scss";
+---
+
+<main class="card">
+    <p class="badge" id="fun-toggle" data-nosnippet>MADE FOR FUN</p>
+    <h1>
+        <a
+            href="https://miku.my.id"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link"
+            aria-label="Miku"
+        >
+            MIKU
+        </a>
+    </h1>
+    <h2 class="description">
+        <span class="typed-prefix">Miku is my id</span><span
+            class="typed-static">entity</span
+        >
+    </h2>
+    <div class="avatar-wrap" aria-hidden="true">
+        <div class="avatar-skeleton"></div>
+        <img
+            src="/virtual-miku.webp"
+            class="avatar"
+            alt="Miku avatar"
+            width="512"
+            height="512"
+            loading="eager"
+            decoding="async"
+        />
+    </div>
+    <p class="contact">
+        <b>
+            <a
+                title="Email"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="mailto:kanade@miku.my.id"
+            >
+                Contact Me!
+            </a>
+        </b>
+    </p>
+    <div class="about">
+        <p>
+            Hi, I'm an IT student. This is my personal website. Nice to meet
+            you!
+        </p>
+    </div>
+    <p class="footer">
+        <span class="sparkle-left">✦ </span>
+        Not affiliated with anything
+        <span class="sparkle-right"> ✦</span>
+    </p>
+</main>
+
+<script>
+    document.getElementById("fun-toggle")?.addEventListener("click", () => {
+        const body = document.body;
+        const isNowOff = body.classList.toggle("no-trail");
+        if (isNowOff) {
+            document.querySelector(".cursor-trail-layer")?.replaceChildren();
+        }
+    });
+
+    (function () {
+        const avatar = document.querySelector<HTMLImageElement>(".avatar");
+        const skeleton = document.querySelector(".avatar-skeleton");
+
+        const reveal = () => {
+            avatar?.classList.add("is-loaded");
+            skeleton?.remove();
+        };
+
+        if (avatar?.complete) {
+            reveal();
+        } else {
+            avatar?.addEventListener("load", reveal, { once: true });
+        }
+    })();
+</script>

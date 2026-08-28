@@ -1,0 +1,125 @@
+---
+import "./CursorTrail.scss";
+---
+
+<script>
+    import BatRawString from "../../assets/bat.svg?raw";
+
+    let lastTime = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isTouching = false;
+    let clearTouchTimeout: number | null = null;
+
+    const batTemplate = document.createElement("div");
+    batTemplate.innerHTML = BatRawString;
+    const batSvgNode = batTemplate.querySelector("svg");
+
+    if (!batSvgNode) {
+        console.error("Failed to load cursor trail");
+    } else {
+        const layer = document.createElement("div");
+        layer.className = "cursor-trail-layer";
+        document.body.appendChild(layer);
+
+        const clearTouchTrails = () => {
+            layer
+                .querySelectorAll(".cursor-trail-touch")
+                .forEach((el) => el.remove());
+        };
+
+        const spawnBat = (x: number, y: number, isTouch: boolean = false) => {
+            if (document.body.classList.contains("no-trail")) return;
+
+            const now = performance.now();
+            if (now - lastTime < 40) return;
+            lastTime = now;
+
+            const el = document.createElement("span");
+            el.className = isTouch
+                ? "cursor-trail cursor-trail-touch"
+                : "cursor-trail";
+
+            el.appendChild(batSvgNode.cloneNode(true));
+
+            el.style.setProperty("--x", `${x}px`);
+            el.style.setProperty("--y", `${y}px`);
+            el.style.setProperty("--dx", `${(Math.random() - 0.5) * 45}px`);
+            el.style.setProperty("--dy", `${(Math.random() - 0.5) * 45}px`);
+            el.style.setProperty("--rot", `${(Math.random() - 0.5) * 80}deg`);
+            el.style.setProperty("--scale", `${0.45 + Math.random() * 0.35}`);
+
+            layer.appendChild(el);
+
+            el.addEventListener("animationend", () => el.remove(), {
+                once: true,
+            });
+        };
+
+        const onPointerMove = (e: PointerEvent) => {
+            if (e.pointerType !== "touch") {
+                spawnBat(e.clientX, e.clientY);
+            }
+        };
+
+        const onTouchStart = (e: TouchEvent) => {
+            const touch = e.touches[0];
+            if (!touch) return;
+            isTouching = true;
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            clearTouchTrails();
+        };
+
+        const onTouchMove = (e: TouchEvent) => {
+            const touch = e.touches[0];
+            if (!touch) return;
+
+            const x = touch.clientX;
+            const y = touch.clientY;
+
+            if (!isTouching) {
+                isTouching = true;
+                touchStartX = x;
+                touchStartY = y;
+                return;
+            }
+
+            const dx = x - touchStartX;
+            const dy = y - touchStartY;
+            const dist = Math.hypot(dx, dy);
+
+            touchStartX = x;
+            touchStartY = y;
+
+            if (dist < 0.1) return;
+
+            spawnBat(x, y, true);
+
+            if (clearTouchTimeout) {
+                clearTimeout(clearTouchTimeout);
+            }
+            clearTouchTimeout = setTimeout(() => {
+                clearTouchTrails();
+            }, 50);
+        };
+
+        const handleTouchEnd = () => {
+            isTouching = false;
+            if (clearTouchTimeout) {
+                clearTimeout(clearTouchTimeout);
+                clearTouchTimeout = null;
+            }
+            clearTouchTrails();
+        };
+
+        window.addEventListener("pointermove", onPointerMove);
+
+        window.addEventListener("touchstart", onTouchStart, { passive: true });
+        window.addEventListener("touchmove", onTouchMove, { passive: true });
+        window.addEventListener("touchend", handleTouchEnd, { passive: true });
+        window.addEventListener("touchcancel", handleTouchEnd, {
+            passive: true,
+        });
+    }
+</script>

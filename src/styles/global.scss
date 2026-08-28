@@ -1,0 +1,37 @@
+:root {
+    --primary: red;
+    --secondary: #fff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+    background-color: #320000;
+    color: #f4ffff;
+    width: 100%;
+    min-height: 100dvh;
+    padding: clamp(25px, 5vw, 50px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    &.no-trail .cursor-trail-layer {
+        display: none;
+    }
+}
+
+@media (width <= 390px) {
+    body {
+        padding-inline: 25px;
+    }
+}

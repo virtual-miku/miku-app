@@ -1,0 +1,115 @@
+---
+import "../styles/global.scss";
+import Card from "../components/Card/Card.astro";
+import CursorTrail from "../components/CursorTrail/CursorTrail.astro";
+
+const now = new Date();
+const dateModified = `${new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Asia/Jakarta",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+})
+    .format(now)
+    .replace(" ", "T")}+07:00`;
+
+const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Miku",
+    alternateName: ["Kanade", "Kanade Miku", "Virtual Miku", "Veritas Miku"],
+    url: "https://miku.my.id/",
+};
+
+const profileSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    dateModified,
+    mainEntity: {
+        "@type": "Person",
+        name: "Miku",
+        url: "https://miku.my.id/",
+        image: "https://miku.my.id/web-app-manifest-512x512.png",
+        email: "kanade@miku.my.id",
+        sameAs: [
+            "https://github.com/virtualmiku",
+            "https://gitlab.com/virtualmiku",
+            "https://huggingface.co/virtualmiku",
+        ],
+    },
+};
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="icon"
+            type="image/png"
+            href="/favicon-96x96.png"
+            sizes="96x96"
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <meta name="apple-mobile-web-app-title" content="Miku" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <title>Miku</title>
+        <meta name="description" content="Hi, Miku is my id (identity). I'm an IT student. This is my personal website. Nice to meet you!" />
+        <meta name="theme-color" content="#330000" />
+        <meta name="robots" content=", max-snippet:95" />
+        <link rel="canonical" href="https://miku.my.id/" />
+        <meta property="og:site_name" content="Miku" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:title" content="Miku" />
+        <meta property="og:description" content="Hi, Miku is my id (identity). I'm an IT student. This is my personal website. Nice to meet you!" />
+        <meta property="og:url" content="https://miku.my.id/" />
+        <meta
+            property="og:image"
+            content="https://miku.my.id/web-app-manifest-512x512.png"
+        />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
+        <meta property="og:locale" content="en_US" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Miku" />
+        <meta name="twitter:description" content="Hi, Miku is my id (identity). I'm an IT student. This is my personal website. Nice to meet you!" />
+        <meta
+            name="twitter:image"
+            content="https://miku.my.id/web-app-manifest-512x512.png"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Henny+Penny&family=New+Rocker&family=Orbitron:wght@400..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Tirra:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="preload" as="image" href="/virtual-miku.webp" />
+
+        <script
+            type="application/ld+json"
+            is:inline
+            set:html={JSON.stringify(websiteSchema)}
+        />
+        <script
+            type="application/ld+json"
+            is:inline
+            set:html={JSON.stringify(profileSchema)}
+        />
+    </head>
+    <body>
+        <CursorTrail />
+        <Card />
+    </body>
+</html>
